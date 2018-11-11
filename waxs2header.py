@@ -14,7 +14,7 @@ from matplotlib import pyplot
 from numpy import median
 import numpy.ma as ma
 
-waxs2_extension = '_WAXS2.cbf'
+waxs_extension = '_WAXS2.cbf'
 header_extension = '_SAXS.txt'
 roi = [220,380,120,150]
 
@@ -24,7 +24,7 @@ def convert(filepath,all = False):
     else:
         fn = getnewfilenames(filepath)
     
-    print('converting %d %s files in directory %s' % (len(fn),waxs2_extension,filepath))
+    print('converting %d %s files in directory %s' % (len(fn),waxs_extension,filepath))
     print('writing mean value in ROI [%d:%d,%d:%d] to %s header file' % (roi[0],roi[1],roi[2],roi[3],header_extension))
     
     j = 0
@@ -51,12 +51,12 @@ def getfilenames(filepath):
     
     fl =[]
     for x in os.listdir(filepath):
-        if waxs2_extension in x:
+        if waxs_extension in x:
             fl.append(filepath + '/' + x)
     return fl
 
 def file2headername(filename):
-    headerfilename = filename.split(waxs2_extension)[-2] + header_extension
+    headerfilename = filename.split(waxs_extension)[-2] + header_extension
     return headerfilename
 
 
