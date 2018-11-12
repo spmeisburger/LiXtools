@@ -14,9 +14,9 @@ from matplotlib import pyplot
 from numpy import median
 import numpy.ma as ma
 
-waxs_extension = '_WAXS2.cbf'
+waxs_extension = '_WAXS1.cbf'
 header_extension = '_SAXS.txt'
-roi = [220,380,120,150]
+roi = [330,370,180,330]
 
 def convert(filepath,all = False):
     if all:

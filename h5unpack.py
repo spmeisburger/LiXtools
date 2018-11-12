@@ -43,18 +43,22 @@ def unpack(fn):
         images = {}
         for ext in list(det_names.keys()):
             #print("loading %s detector images from sample %s" % (ext,sn))
-            ti = fh5["%s/primary/data/%s" % (sn, det_names[ext])].value
-            if len(ti.shape)>3:
-                ti = ti.reshape(ti.shape[-3:])      # quirk of suitcase
-            images[ext] = ti
-        
-            for n in range(images[ext].shape[0]): # loop over images
-                im = images[ext][n,:,:]
+            try:
+                ti = fh5["%s/primary/data/%s" % (sn, det_names[ext])].value
+                if len(ti.shape)>3:
+                    ti = ti.reshape(ti.shape[-3:])      # quirk of suitcase
+                images[ext] = ti
+                for n in range(images[ext].shape[0]): # loop over images
+                    im = images[ext][n,:,:]
+                
+                    # make a new cbf image, no header
+                    imcbf = fabio.cbfimage.CbfImage(data=im)
+                
+                    fncbf = "%s/%s_%05d%s.cbf" % (dirout, sn, n+1, ext)
+                    print(fncbf)
+                    imcbf.write(fncbf)
+            except:
+                print("WARNING: couldn't find image %s/primary/data/%s" % (sn, det_names[ext]))
             
-                # make a new cbf image, no header
-                imcbf = fabio.cbfimage.CbfImage(data=im)
             
-                fncbf = "%s/%s_%05d%s.cbf" % (dirout, sn, n+1, ext)
-                print(fncbf)
-                imcbf.write(fncbf)
             
